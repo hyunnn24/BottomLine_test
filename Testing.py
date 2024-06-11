@@ -5,7 +5,7 @@ main_page_style = '''
 <style>
 /* 메인 페이지 배경 이미지 */
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://cloudfront-us-east-1.images.arcpublishing.com/infobae/YABJ7CAXOZDVHAXSDRSQQ7NJR4.jpg");
+    background-image: url("https://cdn12.idcgames.com/storage/image/1100/lol-news/default.jpg");
     background-size: cover;
     background-position: center;
 }
