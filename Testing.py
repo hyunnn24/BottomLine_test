@@ -44,17 +44,17 @@ def main_page():
     # 다음 페이지로 이동하는 버튼
     if st.button('두 번째 페이지로 이동'):
         switch_page('second_page')
-    if st.button('세 번째 페이지로 이동'):
-        switch_page('third_page')
 
 # 두 번째 페이지 함수
 def second_page():
     st.title('Second Page')
     st.write('이것은 두 번째 페이지입니다.')
     
-    # 메인 페이지로 돌아가는 버튼
-    if st.button('메인 페이지로 돌아가기'):
+    # 이전 페이지로 돌아가는 버튼
+    if st.button('이전 페이지로 돌아가기'):
         switch_page('main')
+    
+    # 다음 페이지로 이동하는 버튼
     if st.button('세 번째 페이지로 이동'):
         switch_page('third_page')
 
@@ -63,9 +63,7 @@ def third_page():
     st.title('Third Page')
     st.write('이것은 세 번째 페이지입니다.')
     
-    # 메인 페이지로 돌아가는 버튼
-    if st.button('메인 페이지로 돌아가기'):
-        switch_page('main')
+    # 두 번째 페이지로 돌아가는 버튼
     if st.button('두 번째 페이지로 돌아가기'):
         switch_page('second_page')
 
