@@ -55,9 +55,11 @@ def main_page():
     st.title('Duo statics')
     st.markdown('<p class="center-text">이상적인 조합, 최상의 결과</p>', unsafe_allow_html=True)
     
-    # 다음 페이지로 이동하는 버튼
-    if st.button('Play'):
-        switch_page('second_page')
+    # 버튼을 가운데로 정렬하기 위해 columns 사용
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button('Play'):
+            switch_page('second_page')
 
 # 두 번째 페이지 함수
 def second_page():
@@ -65,12 +67,16 @@ def second_page():
     st.write('이것은 두 번째 페이지입니다.')
     
     # 이전 페이지로 돌아가는 버튼
-    if st.button('이전 페이지로 돌아가기'):
-        switch_page('main')
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button('이전 페이지로 돌아가기'):
+            switch_page('main')
     
     # 다음 페이지로 이동하는 버튼
-    if st.button('세 번째 페이지로 이동'):
-        switch_page('third_page')
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button('세 번째 페이지로 이동'):
+            switch_page('third_page')
 
 # 세 번째 페이지 함수
 def third_page():
@@ -78,8 +84,10 @@ def third_page():
     st.write('이것은 세 번째 페이지입니다.')
     
     # 두 번째 페이지로 돌아가는 버튼
-    if st.button('두 번째 페이지로 돌아가기'):
-        switch_page('second_page')
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button('두 번째 페이지로 돌아가기'):
+            switch_page('second_page')
 
 # 현재 페이지에 따라 해당 페이지 함수 호출
 if st.session_state.page == 'main':
