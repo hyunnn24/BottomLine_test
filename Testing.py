@@ -55,7 +55,7 @@ def main_page():
     st.title('Duo statics')
     st.markdown('<p class="center-text">이상적인 조합, 최상의 결과</p>', unsafe_allow_html=True)
     
-    for i in range(17):
+    for i in range(20):
         st.write('')
 
     # 버튼을 가운데로 정렬하기 위해 columns 사용
