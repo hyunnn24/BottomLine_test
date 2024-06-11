@@ -1,4 +1,4 @@
-\import streamlit as st
+import streamlit as st
 
 # CSS를 사용하여 메인 페이지 스타일 지정
 main_page_style = '''
