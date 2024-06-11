@@ -1,7 +1,9 @@
 import streamlit as st
 
+# CSS를 사용하여 메인 페이지 스타일 지정
 main_page_style = '''
 <style>
+/* 메인 페이지 배경 이미지 */
 [data-testid="stAppViewContainer"] {
     background-image: url("https://cloudfront-us-east-1.images.arcpublishing.com/infobae/YABJ7CAXOZDVHAXSDRSQQ7NJR4.jpg");
     background-size: cover;
@@ -10,7 +12,7 @@ main_page_style = '''
 
 /* 메인 페이지 컨텐츠 스타일 */
 [data-testid="stAppViewContainer"] .main {
-    background-color: rgba(255, 255, 255,0); /* 투명도 조절 */
+    background-color: rgba(255, 255, 255, 0); /* 투명도 조절 */
     padding: 2rem;
     border-radius: 10px;
 }
@@ -30,8 +32,8 @@ if 'page' not in st.session_state:
 def switch_page(page_name):
     st.session_state.page = page_name
 
-# 현재 페이지에 따라 다른 내용 표시
-if st.session_state.page == 'main':
+# 메인 페이지 함수
+def main_page():
     # CSS 적용
     st.markdown(main_page_style, unsafe_allow_html=True)
     
@@ -40,14 +42,37 @@ if st.session_state.page == 'main':
     st.write('이 예제는 메인 페이지의 배경 이미지와 컨텐츠 스타일을 지정하는 방법을 보여줍니다.')
     
     # 다음 페이지로 이동하는 버튼
-    if st.button('다음 페이지로 이동'):
-        switch_page('next_page')
+    if st.button('두 번째 페이지로 이동'):
+        switch_page('second_page')
+    if st.button('세 번째 페이지로 이동'):
+        switch_page('third_page')
 
-elif st.session_state.page == 'next_page':
-    # 두 번째 페이지 내용
+# 두 번째 페이지 함수
+def second_page():
     st.title('Second Page')
     st.write('이것은 두 번째 페이지입니다.')
     
     # 메인 페이지로 돌아가는 버튼
     if st.button('메인 페이지로 돌아가기'):
         switch_page('main')
+    if st.button('세 번째 페이지로 이동'):
+        switch_page('third_page')
+
+# 세 번째 페이지 함수
+def third_page():
+    st.title('Third Page')
+    st.write('이것은 세 번째 페이지입니다.')
+    
+    # 메인 페이지로 돌아가는 버튼
+    if st.button('메인 페이지로 돌아가기'):
+        switch_page('main')
+    if st.button('두 번째 페이지로 돌아가기'):
+        switch_page('second_page')
+
+# 현재 페이지에 따라 해당 페이지 함수 호출
+if st.session_state.page == 'main':
+    main_page()
+elif st.session_state.page == 'second_page':
+    second_page()
+elif st.session_state.page == 'third_page':
+    third_page()
