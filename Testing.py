@@ -10,7 +10,7 @@ main_page_style = '''
 
 /* 메인 페이지 컨텐츠 스타일 */
 [data-testid="stAppViewContainer"] .main {
-    background-color: rgba(255, 255, 255, 0.5); /* 투명도 조절 */
+    background-color: rgba(255, 255, 255); /* 투명도 조절 */
     padding: 2rem;
     border-radius: 10px;
 }
