@@ -1,11 +1,9 @@
 import streamlit as st
 
-# CSS를 사용하여 메인 페이지 스타일 지정
 main_page_style = '''
 <style>
-/* 메인 페이지 배경 이미지 */
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://www.google.com/imgres?q=%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C&imgurl=https%3A%2F%2Fcloudfront-us-east-1.images.arcpublishing.com%2Finfobae%2FYABJ7CAXOZDVHAXSDRSQQ7NJR4.jpg&imgrefurl=https%3A%2F%2Fwww.infobae.com%2Fkr%2F2022%2F04%2F07%2Fguide-and-tips-to-start-playing-league-of-legends%2F&docid=X1jXmwmM8SVxaM&tbnid=fzf_SlZgrdx6wM&vet=12ahUKEwjixMThrtKGAxWMk1YBHZBbBUMQM3oECGcQAA..i&w=1320&h=741&hcb=2&ved=2ahUKEwjixMThrtKGAxWMk1YBHZBbBUMQM3oECGcQAA");
+    background-image: url("https://cloudfront-us-east-1.images.arcpublishing.com/infobae/YABJ7CAXOZDVHAXSDRSQQ7NJR4.jpg");
     background-size: cover;
     background-position: center;
 }
