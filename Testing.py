@@ -38,11 +38,11 @@ def main_page():
     st.markdown(main_page_style, unsafe_allow_html=True)
     
     # 메인 페이지 내용
-    st.title('Streamlit App with Styled Main Page')
-    st.write('이 예제는 메인 페이지의 배경 이미지와 컨텐츠 스타일을 지정하는 방법을 보여줍니다.')
+    st.title('Duo statics')
+    st.write('이상적인 조합, 최상의 결과')
     
     # 다음 페이지로 이동하는 버튼
-    if st.button('두 번째 페이지로 이동'):
+    if st.button('Play'):
         switch_page('second_page')
 
 # 두 번째 페이지 함수
