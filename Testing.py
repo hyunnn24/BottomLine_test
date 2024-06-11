@@ -56,10 +56,9 @@ def main_page():
     st.markdown('<p class="center-text">이상적인 조합, 최상의 결과</p>', unsafe_allow_html=True)
     
     # 다음 페이지로 이동하는 버튼
-    st.markdown('<div class="center-button">', unsafe_allow_html=True)
-    if st.button('Play'):
+    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=second_page\'">Play</button></div>', unsafe_allow_html=True)
+    if st.session_state.page == 'second_page':
         switch_page('second_page')
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # 두 번째 페이지 함수
 def second_page():
@@ -67,16 +66,14 @@ def second_page():
     st.write('이것은 두 번째 페이지입니다.')
     
     # 이전 페이지로 돌아가는 버튼
-    st.markdown('<div class="center-button">', unsafe_allow_html=True)
-    if st.button('이전 페이지로 돌아가기'):
+    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=main\'">이전 페이지로 돌아가기</button></div>', unsafe_allow_html=True)
+    if st.session_state.page == 'main':
         switch_page('main')
-    st.markdown('</div>', unsafe_allow_html=True)
 
     # 다음 페이지로 이동하는 버튼
-    st.markdown('<div class="center-button">', unsafe_allow_html=True)
-    if st.button('세 번째 페이지로 이동'):
+    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=third_page\'">세 번째 페이지로 이동</button></div>', unsafe_allow_html=True)
+    if st.session_state.page == 'third_page':
         switch_page('third_page')
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # 세 번째 페이지 함수
 def third_page():
@@ -84,10 +81,9 @@ def third_page():
     st.write('이것은 세 번째 페이지입니다.')
     
     # 두 번째 페이지로 돌아가는 버튼
-    st.markdown('<div class="center-button">', unsafe_allow_html=True)
-    if st.button('두 번째 페이지로 돌아가기'):
+    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=second_page\'">두 번째 페이지로 돌아가기</button></div>', unsafe_allow_html=True)
+    if st.session_state.page == 'second_page':
         switch_page('second_page')
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # 현재 페이지에 따라 해당 페이지 함수 호출
 if st.session_state.page == 'main':
