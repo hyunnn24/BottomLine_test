@@ -1,4 +1,4 @@
-import streamlit as st
+\import streamlit as st
 
 # CSS를 사용하여 메인 페이지 스타일 지정
 main_page_style = '''
@@ -56,8 +56,7 @@ def main_page():
     st.markdown('<p class="center-text">이상적인 조합, 최상의 결과</p>', unsafe_allow_html=True)
     
     # 다음 페이지로 이동하는 버튼
-    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=second_page\'">Play</button></div>', unsafe_allow_html=True)
-    if st.session_state.page == 'second_page':
+    if st.button('Play'):
         switch_page('second_page')
 
 # 두 번째 페이지 함수
@@ -66,13 +65,11 @@ def second_page():
     st.write('이것은 두 번째 페이지입니다.')
     
     # 이전 페이지로 돌아가는 버튼
-    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=main\'">이전 페이지로 돌아가기</button></div>', unsafe_allow_html=True)
-    if st.session_state.page == 'main':
+    if st.button('이전 페이지로 돌아가기'):
         switch_page('main')
-
+    
     # 다음 페이지로 이동하는 버튼
-    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=third_page\'">세 번째 페이지로 이동</button></div>', unsafe_allow_html=True)
-    if st.session_state.page == 'third_page':
+    if st.button('세 번째 페이지로 이동'):
         switch_page('third_page')
 
 # 세 번째 페이지 함수
@@ -81,8 +78,7 @@ def third_page():
     st.write('이것은 세 번째 페이지입니다.')
     
     # 두 번째 페이지로 돌아가는 버튼
-    st.markdown('<div class="center-button"><button onclick="window.location.href=\'/?page=second_page\'">두 번째 페이지로 돌아가기</button></div>', unsafe_allow_html=True)
-    if st.session_state.page == 'second_page':
+    if st.button('두 번째 페이지로 돌아가기'):
         switch_page('second_page')
 
 # 현재 페이지에 따라 해당 페이지 함수 호출
