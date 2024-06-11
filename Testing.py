@@ -56,7 +56,7 @@ def main_page():
     st.markdown('<p class="center-text">이상적인 조합, 최상의 결과</p>', unsafe_allow_html=True)
     
     # 버튼을 가운데로 정렬하기 위해 columns 사용
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([3, 1, 3])
     with col2:
         if st.button('Play'):
             switch_page('second_page')
