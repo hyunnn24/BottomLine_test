@@ -19,7 +19,7 @@ main_page_style = '''
 
 /* 타이틀 스타일 */
 [data-testid="stAppViewContainer"] .main h1 {
-    color: #ff6347; /* 타이틀 텍스트 색상 */
+    color: #ffffff; /* 타이틀 텍스트 색상 */
 }
 </style>
 '''
