@@ -3,11 +3,9 @@ import streamlit as st
 # 페이지 제목
 st.title("선픽/후픽 페이지 선택")
 
-# 페이지 옵션
+# 사이드바에서 페이지 옵션 선택
 options = ["선픽", "후픽"]
-
-# 선택상자 생성
-choice = st.selectbox("페이지를 선택하세요:", options)
+choice = st.sidebar.selectbox("페이지를 선택하세요:", options)
 
 # 선택한 페이지에 따른 내용 표시
 if choice == "선픽":
