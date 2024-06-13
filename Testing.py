@@ -1,7 +1,10 @@
 import streamlit as st
 
-# 페이지 선택
-page = st.sidebar.selectbox("페이지 선택", ["선픽"]["후픽"])
+# 페이지 타이틀
+st.sidebar.title("OptimalBotAI")
+
+# 버튼을 사용하여 페이지 선택
+page = st.sidebar.radio("페이지 선택", ["선픽", "후픽"])
 
 if page == "선픽":
     st.title("선픽 페이지")
