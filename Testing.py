@@ -1,11 +1,11 @@
 import streamlit as st
 
-# 사용자 정의 CSS를 적용하여 사이드바의 스타일을 변경합니다.
+# 사용자 정의 CSS
 st.markdown(
     """
     <style>
-    /* 사이드바 배경 색상 및 패딩 설정 */
-    .css-1d391kg {
+    /* 사이드바 배경색 및 내부 패딩 */
+    .css-1d391kg {  /* 최신 Streamlit 버전에 따라 클래스 이름을 변경할 수 있습니다 */
         background-color: #333 !important;
         padding: 20px !important;
     }
