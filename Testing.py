@@ -1,5 +1,48 @@
 import streamlit as st
 
+# 사용자 정의 CSS
+st.markdown(
+    """
+    <style>
+    .sidebar .sidebar-content {
+        background-color: #333;
+        padding: 20px;
+    }
+    .sidebar .sidebar-content h1 {
+        color: #fff;
+        text-align: center;
+        font-size: 24px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    .sidebar .sidebar-content .stRadio > label {
+        display: none;
+    }
+    .sidebar .sidebar-content .stRadio > div {
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar .sidebar-content .stRadio div div {
+        color: #fff;
+        background-color: #444;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .sidebar .sidebar-content .stRadio div div:hover {
+        background-color: #555;
+    }
+    .sidebar .sidebar-content .stRadio div div:focus {
+        background-color: #666;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # 페이지 타이틀
 st.sidebar.title("OptimalBotAI")
 
