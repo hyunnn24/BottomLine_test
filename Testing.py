@@ -24,10 +24,22 @@ st.markdown("""
     }
     .css-1vgnldh, .css-1vgnldh:hover {
         color: white;
-        background-color: #5a5e69;
+        background-color: #3E4249;
+        border: 1px solid #3E4249;
+        border-radius: 10px;
+        padding: 10px 20px;
+        margin: 5px 0;
+        text-align: center;
+        display: block;
+    }
+    .css-1vgnldh:hover {
+        background-color: #545862;
     }
     .css-1vgnldh:focus {
         background-color: #4c4f58;
+    }
+    .css-1vgnldh:active {
+        background-color: #2a2d32;
     }
     </style>
     """, unsafe_allow_html=True)
