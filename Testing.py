@@ -1,6 +1,6 @@
 import streamlit as st
 
-# 페이지 컨텐츠를 함수로 정의
+# 페이지 내용을 함수로 정의
 def render_sunpick_page():
     st.header("이곳은 선픽 페이지입니다.")
     st.write("선픽 페이지 내용을 여기에 작성하세요.")
@@ -16,13 +16,7 @@ if 'page' not in st.session_state:
 # 사용자 정의 CSS 스타일 적용
 st.markdown("""
     <style>
-    .sidebar .sidebar-content {
-        background-color: #2c2f38;
-    }
-    .sidebar .radio {
-        color: white;
-    }
-    .css-1vgnldh, .css-1vgnldh:hover {
+    .css-1d391kg .stButton button {
         color: white;
         background-color: #3E4249;
         border: 1px solid #3E4249;
@@ -32,13 +26,16 @@ st.markdown("""
         text-align: center;
         display: block;
     }
-    .css-1vgnldh:hover {
+
+    .css-1d391kg .stButton button:hover {
         background-color: #545862;
     }
-    .css-1vgnldh:focus {
+
+    .css-1d391kg .stButton button:focus {
         background-color: #4c4f58;
     }
-    .css-1vgnldh:active {
+
+    .css-1d391kg .stButton button:active {
         background-color: #2a2d32;
     }
     </style>
