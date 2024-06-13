@@ -1,7 +1,7 @@
 import streamlit as st
 
 # 페이지 선택
-page = st.sidebar.selectbox("페이지 선택", ["선픽"],["후픽"])
+page = st.sidebar.selectbox("페이지 선택", ["선픽"]["후픽"])
 
 if page == "선픽":
     st.title("선픽 페이지")
