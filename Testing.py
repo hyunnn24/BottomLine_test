@@ -22,12 +22,22 @@ bottom_champions = {
 # 이미지를 원형으로 자르는 함수 정의
 def crop_to_circle(image):
     np_image = np.array(image)
+    print(f"Original image shape: {np_image.shape}, dtype: {np_image.dtype}")  # 디버그용 출력
+
     h, w = image.size
     alpha = Image.new('L', (w, h), 0)
     draw = ImageDraw.Draw(alpha)
     draw.pieslice([0, 0, w, h], 0, 360, fill=255)
     np_alpha = np.array(alpha)
-    np_image = np.dstack((np_image, np_alpha))
+    print(f"Alpha channel shape: {np_alpha.shape}, dtype: {np_alpha.dtype}")  # 디버그용 출력
+
+    if np_image.shape[2] == 3:  # 이미지가 RGB인 경우
+        np_image = np.dstack((np_image, np_alpha))
+    elif np_image.shape[2] == 4:  # 이미지가 RGBA인 경우
+        np_image[:, :, 3] = np_alpha
+
+    print(f"Combined image shape: {np_image.shape}, dtype: {np_image.dtype}")  # 디버그용 출력
+
     return Image.fromarray(np_image)
 
 # 페이지 컨텐츠를 함수로 정의
