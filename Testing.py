@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image, ImageDraw
 import requests
 from io import BytesIO
+import numpy as np
 
 # 바텀 챔피언 목록
 bottom_champions = {
@@ -22,9 +23,9 @@ bottom_champions = {
 def crop_to_circle(image):
     np_image = np.array(image)
     h, w = image.size
-    alpha = Image.new('L', image.size, 0)
+    alpha = Image.new('L', (w, h), 0)
     draw = ImageDraw.Draw(alpha)
-    draw.pieslice([0, 0, h, w], 0, 360, fill=255)
+    draw.pieslice([0, 0, w, h], 0, 360, fill=255)
     np_alpha = np.array(alpha)
     np_image = np.dstack((np_image, np_alpha))
     return Image.fromarray(np_image)
