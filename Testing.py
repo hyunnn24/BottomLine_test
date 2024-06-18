@@ -449,12 +449,18 @@ with col2:
         # call openai
         st.subheader("Team")
         for item in result['team']:
+            for i in champions_ad:
+                if i["name"] == item:
+                    st.image(i['image_url'])
             for i in champions_sup:
                 if i["name"] == item:
                     st.image(i['image_url'])
         st.subheader("Counter")
         for item in result['counter']:
             for i in champions_ad:
+                if i["name"] == item:
+                    st.image(i['image_url'])
+            for i in champions_sup:
                 if i["name"] == item:
                     st.image(i['image_url'])
 
