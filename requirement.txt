@@ -1,11 +1,3 @@
 openai
-
-pandas
-
 streamlit
-
-pillow
-
-requests
-
-numpy
+st-click-detector
