@@ -426,10 +426,10 @@ for item in champions_ad:
     src = item["image_url"]
     html += f"<a href='#' id='{name}'><img src='{src}'></a>"
     
-for item in champions_sup:
+'''for item in champions_sup:
     name=item["name"]
     src = item["image_url"]
-    html += f"<a href='#' id='{name}'><img src='{src}'></a>"
+    html += f"<a href='#' id='{name}'><img src='{src}'></a>"'''
 
 # 중앙 정렬을 위한 컨테이너
 col1, col2 = st.columns(2)
