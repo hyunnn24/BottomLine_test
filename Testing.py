@@ -445,7 +445,7 @@ with col2:
         st.write(clicked)
         # call openai
         result = call_example(clicked)
-        st.write(result)
+        #st.write(result)
         # call openai
         st.subheader("Team")
         for item in result['team']:
