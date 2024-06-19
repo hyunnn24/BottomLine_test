@@ -98,8 +98,8 @@ def run_openai(client, assistant, user_input):
  #           st.error(f"Error occurred: {str(e)}")
 
 
-def call_example(query):
-    champions_ad=[{
+
+champions_ad=[{
     "name" : "애쉬",
     "image_url":"https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Ashe.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"
 },
