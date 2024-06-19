@@ -202,7 +202,14 @@ champions_sup=[{
     "name":"나미",
     "image_url":"https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Nami.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"
 },
-              
+{
+    "name":"탐켄치",
+    "image_url":"https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/TahmKench.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_png,w_160,h_160&v=1717557723274"
+},
+{
+    "name":"밀리오",
+    "image_url":"https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Milio.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_png,w_160,h_160&v=1717557723274"
+},              
 ]
 
 
