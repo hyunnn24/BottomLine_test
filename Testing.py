@@ -1,14 +1,160 @@
 import streamlit as st
+from bs4 import BeautifulSoup
+import requests
+from openai import OpenAI
 from st_click_detector import click_detector
 
 # Streamlit 페이지 구성
 st.set_page_config(layout="wide")
-
 # 사이드바에 들어가는 타이틀
 st.sidebar.title('OptimalBotAI')
 
+api_key = st.text_input('Enter your OpenAI API key:', type='password')
 
-champions_ad=[{
+def download_and_save(url, filename):
+    """
+    Function to download text content from a URL, parse it using BeautifulSoup,
+    and save it to a file.
+    """
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    text = soup.get_text(separator=' ', strip=True)
+    with open(filename, 'w') as fo:
+        fo.write(text)
+
+def setup_openai(api_key, filename):
+    """
+    Function to setup OpenAI client, create vector store, and create assistant.
+    """
+    client = OpenAI(api_key=api_key)
+
+    # Download data file from GitHub
+    github_url = "https://github.com/hyunnn24/retrieval/blob/main/data.txt"
+    url = github_url.replace("/blob/", "/raw/")
+    download_and_save(url, filename)
+
+    # Create vector store
+    vector_store = client.beta.vector_stores.create(name="Bottom pick")
+
+    # Create assistant
+    assistant = client.beta.assistants.create(
+        name="LOL Pick Assistant",
+        instructions="문서를 참조하여 주어지는 모든 챔피언들의 카운터와 추천서폿을 각각 알려주세요 한국어로 답해주세요",
+        model="gpt-3.5-turbo",
+        tools=[{"type": "file_search"}],
+        tool_resources={
+            "file_search": {
+                "vector_store_ids": [vector_store.id]
+            }
+        }
+    )
+
+    return client, vector_store, assistant
+
+def run_openai(client, assistant, user_input):
+    """
+    Function to run OpenAI assistant with user input.
+    """
+    thread = client.beta.threads.create(
+        messages=[
+            {
+                "role": "user",
+                "content": user_input,
+            }
+        ]
+    )
+
+    run = client.beta.threads.runs.create_and_poll(
+        thread_id=thread.id,
+        assistant_id=assistant.id
+    )
+
+    thread_messages = client.beta.threads.messages.list(thread.id, run_id=run.id)
+
+    return thread_messages
+
+# Streamlit application start
+#def main():
+#    st.title("간단한 챗봇 만들기")
+
+    # User input fields
+#    api_key = st.text_input('Enter your OpenAI API key:', type='password')
+#    user_input = st.text_input('픽 입력:')
+
+ #   if api_key and user_input:
+ #       try:
+            # Setup OpenAI client and resources
+ #           filename = 'data.txt'
+ #           client, vector_store, assistant = setup_openai(api_key, filename)
+
+            # Run OpenAI assistant with user input
+ #           thread_messages = run_openai(client, assistant, user_input)
+
+            # Display messages from the assistant
+#            for msg in thread_messages.data:
+#                st.write(f"{msg.role}: {msg.content[0].text.value}")
+
+#        except Exception as e:
+ #           st.error(f"Error occurred: {str(e)}")
+
+
+champions_ad = [
+    {"name": "애쉬", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Ashe.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "카이사", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Kaisa.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "케이틀린", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Caitlyn.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "징크스", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Jinx.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "진", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Jhin.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "자야", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Xayah.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "바루스", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Varus.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "이즈리얼", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Ezreal.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "사미라", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Samira.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "베인", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Vayne.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "스몰더", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Smolder.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "제리", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Zeri.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "드레이븐", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Draven.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "루시안", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Lucian.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "미스포츈", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/MissFortune.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "닐라", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Nilah.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "시비르", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Sivir.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "코그모", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/KogMaw.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "코르키", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Corki.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "트리스타나", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Tristana.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "트위치", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Twitch.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "아펠리오스", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Aphelios.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "직스", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Ziggs.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "칼리스타", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Kalista.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+]
+
+champions_sup = [
+    {"name": "노틸러스", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Nautilus.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "쓰레쉬", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Thresh.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "파이크", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Pyke.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "모르가나", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Morgana.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "유미", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Yuumi.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "카르마", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Karma.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "파이크", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Pyke.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "세라핀", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Seraphine.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "레오나", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Leona.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "자이라", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Zyra.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "알리스타", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Alistar.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "바드", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Bard.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "브라움", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Braum.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "룰루", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Lulu.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "잔나", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Janna.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "소라카", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Soraka.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "나미", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Nami.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "타릭", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Taric.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "질리언", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Zilean.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "레나타 글라스크", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Renata.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "블리츠크랭크", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Blitzcrank.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "룰루", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Lulu.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "샤코", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Shaco.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "마오카이", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Maokai.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+    {"name": "럭스", "image_url": "https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Lux.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"},
+]
+
+def call_example(query):
+    champions_ad=[{
     "name" : "애쉬",
     "image_url":"https://opgg-static.akamaized.net/meta/images/lol/14.12.1/champion/Ashe.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&v=1717557723274"
 },
@@ -438,12 +584,21 @@ def call_example(query):
     }
     return examples.get(query, {"team": [], "counter": []})
 
-html = ""
+
+
+html_ad = ""
 for item in champions_ad:
     name=item["name"]
     src = item["image_url"]
-    html += f"<a href='#' id='{name}'><img src='{src}'></a>"
+    html_ad += f"<a href='#' id='{name}'><img src='{src}'></a>"
+
+html_sup = ""
+for item in champions_sup:
+    name=item["name"]
+    src = item["image_url"]
+    html_sup += f"<a href='#' id='{name}'><img src='{src}'></a>"
     
+
 
 
 # 중앙 정렬을 위한 컨테이너
@@ -451,7 +606,7 @@ col1, col2 = st.columns([1, 5])
 clicked=None
 with col1:
     with st.container():
-        clicked = click_detector(html)
+        clicked = click_detector(html_ad)
         #cols = st.columns(6)
         #for i in range(len(champions_ad)):
         #    with cols[i % 6]:
@@ -465,10 +620,8 @@ with col2:
         result = call_example(clicked)
         #st.write(result)
         # call openai
-        
         st.subheader("Team")
         for item in result['team']:
-            
             for i in champions_ad:
                 if i["name"] == item:
                     st.image(i['image_url'])
@@ -477,7 +630,6 @@ with col2:
                     st.image(i['image_url'])
         st.subheader("Counter")
         for item in result['counter']:
-            
             for i in champions_ad:
                 if i["name"] == item:
                     st.image(i['image_url'])
@@ -487,9 +639,33 @@ with col2:
 
 st.divider()
 
-with st.container():
-    cols = st.columns(6)
-    for i in range(len(champions_sup)):
-        with cols[i % 6]:
-            champion_sup = champions_sup[i]
-            st.image(champion_sup["image_url"], caption=champion_sup["name"])
+col1, col2 = st.columns([1, 5])
+clicked=None
+with col1:
+    with st.container():
+        clicked = click_detector(html_sup)
+        #cols = st.columns(6)
+        #for i in range(len(champions_ad)):
+        #    with cols[i % 6]:
+        #        champion_ad = champions_ad[i]
+        #        st.image(champion_ad["image_url"], caption=champion_ad["name"])
+with col2:
+    with st.container():
+        #placeholder = st.empty()
+        st.write(clicked)
+        # call openai
+        result = call_example(clicked)
+        #st.write(result)
+        # call openai
+
+        #서폿 조합 코드
+        #L_____
+        
+        st.subheader("Counter")
+        for item in result['counter']:
+            for i in champions_ad:
+                if i["name"] == item:
+                    st.image(i['image_url'])
+            for i in champions_sup:
+                if i["name"] == item:
+                    st.image(i['image_url'])
