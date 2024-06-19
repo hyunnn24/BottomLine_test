@@ -602,7 +602,7 @@ with col2:
         st.write(clicked)
         # call openai
         result = call_example(clicked)
-        #st.write(result)
+        st.write(result)
         # call openai
 
         #서폿 조합 코드
