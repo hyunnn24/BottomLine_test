@@ -469,7 +469,7 @@ with col2:
         result = call_example(clicked)
         #st.write(result)
         # call openai
-        if item in result['team']
+        if item in result['team']:
             st.subheader("Team")
         for item in result['team']:
             for i in champions_ad:
@@ -478,7 +478,7 @@ with col2:
             for i in champions_sup:
                 if i["name"] == item:
                     st.image(i['image_url'])
-        if item in result['counter']    
+        if item in result['counter']:    
             st.subheader("Counter")
         for item in result['counter']:
             for i in champions_ad:
